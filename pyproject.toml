@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "getapt"
+version = "0.1.0"
+description = "A simple Django app to help me find an apartment"
+authors = ["PokerFacowaty <pokerfacowaty.bn@gmail.com>"]
+license = "GPL-3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.2.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
