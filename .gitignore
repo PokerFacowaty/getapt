@@ -1,0 +1,8 @@
+.vscode
+.DS_store
+.stfolder
+*.py[cod]
+*.log
+__pycache__
+db.sqlite3
+*.js
