@@ -1,3 +1,5 @@
 from django.contrib import admin
+from apts.models import Apartment, Cost
 
-# Register your models here.
+admin.site.register(Apartment)
+admin.site.register(Cost)
