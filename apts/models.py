@@ -6,7 +6,7 @@ class Apartment(models.Model):
     ROOMS = models.IntegerField()
     LOCATION = models.CharField(blank=True, max_length=256)
     NOTES = models.CharField(blank=True, max_length=512)
-    COSTS = models.ManyToManyField("Cost")
+    COSTS = models.ManyToManyField("Cost", blank=True)
     LINK = models.CharField(blank=True, max_length=256)
 
     def total_cost(self) -> int:
@@ -29,4 +29,4 @@ class Cost(models.Model):
 
 
 class CostType(models.Model):
-    NAME = models.CharField(max_length=50)
+    NAME = models.CharField(max_length=50, unique=True)
