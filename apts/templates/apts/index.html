@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>getapt</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Link</th>
+            <th>Location</th>
+            <th>Rooms</th>
+            <th>Square Meters</th>
+            <th>Notes</th>
+            <th>Costs</th>
+            <th>Total costs (or estimated)</th>
+        </tr>
+        <tr>
+            {% for apt in apts %}
+                <td><a href={{ apt.LINK }} target="_blank">LINK</a></td>
+                <td>{{ apt.LOCATION }}</td>
+                <td>{{ apt.ROOMS }}</td>
+                <td>{{ apt.SQUARE_METERS }}</td>
+                <td>{{ apt.NOTES }}</td>
+                <td>
+                    {% for cost in apt.costs %}
+                        {% if cost.ESTIMATE %}
+                            <div>{{ cost.NAME }} - {{ cost.PRICE }} (EST)</div>
+                        {% else %}
+                            <div>{{ cost.NAME }} - {{ cost.PRICE }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ apt.total }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>
