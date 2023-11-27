@@ -11,30 +11,22 @@ class Apartment(models.Model):
 
     def total_cost(self) -> int:
         total = 0
-        for cost in self.COSTS:
+        for cost in self.COSTS.all():
             total += cost.PRICE
         return total
 
 
 class Cost(models.Model):
     NAME = models.CharField(max_length=50)
+    TYPE = models.ForeignKey("CostType", null=True, on_delete=models.CASCADE)
     PRICE = models.IntegerField(null=True)
-    ESTIMATED_PRICE = models.IntegerField(null=True)
-    # Where to copy the price from if it's not known
-    COPY = "CP"
-    DEFAULT = "DF"
-    NO_PRICE_CHOICES = [(COPY, "Copy from another cost"),
-                        (DEFAULT, "Use a default value")]
-    NO_PRICE = models.CharField(max_length=20, choices=NO_PRICE_CHOICES,
-                                default=DEFAULT)
-    PRICE_TO_COPY = models.ForeignKey("Cost", null=True,
-                                      on_delete=models.CASCADE)
-    DEFAULT_PRICE = models.IntegerField(null=True)
+    PRICE_IS_ESTIMATED = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        if (self.PRICE is None and self.NO_PRICE == "CP"
-           and self.PRICE_TO_COPY is not None):
-            self.PRICE = self.PRICE_TO_COPY.PRICE
-        elif (self.PRICE is None and self.NO_PRICE_CHOICES == "DF"):
-            self.PRICE = self.DEFAULT_PRICE
+        if self.NAME is None and self.TYPE is not None:
+            self.NAME = self.TYPE.NAME
         super(Cost, self).save(*args, **kwargs)
+
+
+class CostType(models.Model):
+    NAME = models.CharField(max_length=50)
