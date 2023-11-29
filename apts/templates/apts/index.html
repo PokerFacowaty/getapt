@@ -18,7 +18,8 @@
             <th>Total costs (or estimated)</th>
         </tr>
         <tr>
-            {% for apt in apts %}
+        {% for apt in apts %}
+            <tr>
                 <td><a href={{ apt.LINK }} target="_blank">LINK</a></td>
                 <td>{{ apt.LOCATION }}</td>
                 <td>{{ apt.ROOMS }}</td>
@@ -34,8 +35,8 @@
                     {% endfor %}
                 </td>
                 <td>{{ apt.total }}</td>
-            {% endfor %}
-        </tr>
+            </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
