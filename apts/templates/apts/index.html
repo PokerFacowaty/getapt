@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>getapt</title>
     <script src="{% static 'apts/js/index.js' %}"></script>
+    <link id="stylesheet" rel="stylesheet" type="text/css" href="{% static 'apts/css/index.css' %}">
 </head>
 <body>
     <table>
@@ -26,7 +27,7 @@
                 <td>{{ apt.NOTES }}</td>
                 <td>
                     {% for cost in apt.costs %}
-                        {% if cost.ESTIMATE %}
+                        {% if cost.PRICE_IS_ESTIMATED %}
                             <div>{{ cost.NAME }} - {{ cost.PRICE }} (EST)</div>
                         {% else %}
                             <div>{{ cost.NAME }} - {{ cost.PRICE }}</div>
