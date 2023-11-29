@@ -32,22 +32,25 @@ def create_apt(request):
     return JsonResponse({"context": "Not POST"}, status=400)
 
 
-def create_cost(request, apt_id):
+def create_cost(request):
     j = json.load(request)
     cost = j.get("payload")
     if request.method == "POST":
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
-            if cost.get("NAME", None):
+            if cost.get("name", None):
                 new_cost = Cost.objects.create(
-                    NAME=cost["NAME"],
-                    PRICE=cost["PRICE"],
-                    PRICE_IS_ESTIMATED=cost["PRICE_IS_ESTIMATED"]
+                    NAME=cost["name"],
+                    PRICE=cost["price"],
+                    PRICE_IS_ESTIMATED=cost["priceIsEstimated"]
                 )
             else:
                 new_cost = Cost.objects.create(
-                    TYPE=CostType.objects.get(NAME=cost["TYPE"]),
-                    PRICE=cost["PRICE"],
-                    PRICE_IS_ESTIMATED=cost["PRICE_IS_ESTIMATED"]
+                    TYPE=CostType.objects.get(NAME=cost["type"]),
+                    PRICE=cost["price"],
+                    PRICE_IS_ESTIMATED=cost["priceIsEstimated"]
                 )
             new_cost.save()
+            return JsonResponse({"cost_id": new_cost.pk})
+        return JsonResponse({"context": "Not AJAX"}, status=400)
+    return JsonResponse({"context": "Not POST"}, status=400)
