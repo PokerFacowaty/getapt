@@ -20,13 +20,13 @@ def create_apt(request):
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
             new_apt = Apartment.objects.create(
-                SQUARE_METERS=apt["SQUARE_METERS"],
-                ROOMS=apt["ROOMS"],
-                LOCATION=apt["LOCATION"],
-                NOTES=apt["NOTES"],
-                LINK=apt["LINK"])
+                SQUARE_METERS=apt["squareMeters"],
+                ROOMS=apt["rooms"],
+                LOCATION=apt["location"],
+                NOTES=apt["notes"],
+                LINK=apt["link"])
             new_apt.save()
-            new_apt.add(x for x in apt["COSTS"])
+            new_apt.COSTS.add(*apt["costs"])
             return JsonResponse({"context": "Added the apartment!"})
         return JsonResponse({"context": "Not ajax"}, status=400)
     return JsonResponse({"context": "Not POST"}, status=400)
