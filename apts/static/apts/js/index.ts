@@ -13,8 +13,8 @@ function addInput(e: MouseEvent): void {
     e.target.addEventListener("click", removeInput);
     const input = document.createElement("div");
     input.id = "input";
-    input.innerHTML = ('<label for="link">Link:</label>'
-                       + '<input type="text" id="link">'
+    input.innerHTML = ('<label for="apt-link">Link:</label>'
+                       + '<input type="text" id="apt-link">'
                        + '<label for="square-meters">Square Meters:</label>'
                        + '<input type="number" id="square-meters">'
                        + '<label for="rooms">Rooms:</label>'
@@ -52,6 +52,11 @@ function addCost(e: MouseEvent): void {
 }
 
 async function addCostsAndApt(e: MouseEvent){
+    const costs_ids = await addCosts();
+    addApt(costs_ids);
+}
+
+async function addCosts(){
     const cost_url = window.location.origin + '/add_cost/';
 
     const costs_arr = Array.from(document.getElementsByClassName("cost"));
@@ -86,8 +91,50 @@ async function addCostsAndApt(e: MouseEvent){
             return data.cost_id;
         }));
     }
-    console.log(costs_ids);
+    return costs_ids;
 }
+
+async function addApt(costs_ids: Number[]){
+    const apt_url = window.location.origin + '/add_apt/';
+
+    const apt_div = document.getElementById("input") as HTMLDivElement;
+    const link_field = apt_div.querySelector("#apt-link") as HTMLInputElement;
+    const link = link_field.value;
+    const sqm_field = apt_div.querySelector("#square-meters") as HTMLInputElement;
+    const sqm = Number(sqm_field.value);
+    const rooms_field = apt_div.querySelector("#rooms") as HTMLInputElement;
+    const rooms = Number(rooms_field.value);
+    const location_field = apt_div.querySelector("#location") as HTMLInputElement;
+    const location = location_field.value;
+    const notes_field = apt_div.querySelector("#notes") as HTMLInputElement;
+    const notes = notes_field.value;
+
+    fetch(apt_url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": CSRFTOKEN
+        },
+        body: JSON.stringify({payload:
+                              {link: link, squareMeters: sqm, rooms: rooms,
+                               location: location, notes: notes,
+                               costs: costs_ids}})
+    })
+    .then(response => {
+        if (response.ok){
+            return new Promise(resolve => {resolve(response.json())});
+        }
+    })
+    .then(data => {
+        const costs_arr = Array.from(document.getElementsByClassName("cost"));
+        for (const cost of costs_arr){
+            cost.remove();
+        }
+        document.getElementById("input").remove();
+    });
+}
+
 
 function getCookie(name: string) {
     let cookieValue = null;
