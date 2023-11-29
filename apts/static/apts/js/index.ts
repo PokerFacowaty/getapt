@@ -132,6 +132,12 @@ async function addApt(costs_ids: Number[]){
             cost.remove();
         }
         document.getElementById("input").remove();
+        const table = document.getElementsByTagName("table")[0] as HTMLTableElement;
+        const row = table.insertRow();
+        for (const el of [link, sqm, rooms, location, notes]){
+            const cell = row.insertCell();
+            cell.innerHTML = String(el);
+        }
     });
 }
 
