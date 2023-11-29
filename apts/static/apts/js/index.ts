@@ -13,18 +13,18 @@ function addInput(e: MouseEvent): void {
     e.target.addEventListener("click", removeInput);
     const input = document.createElement("div");
     input.id = "input";
-    input.innerHTML = ('<label for="apt-link">Link:</label>'
-                       + '<input type="text" id="apt-link">'
-                       + '<label for="square-meters">Square Meters:</label>'
-                       + '<input type="number" id="square-meters">'
-                       + '<label for="rooms">Rooms:</label>'
-                       + '<input type="number" id="rooms">'
-                       + '<label for="location">Location:</label>'
-                       + '<input type="text" id="location">'
-                       + '<label for="notes">Notes:</label>'
-                       + '<textarea id="notes"></textarea>'
-                       + '<button id="add-cost-btn">Add cost</button>'
-                       + '<button id="send-apt-btn">Submit</button>');
+    input.innerHTML = ('<div style="display: flex"><label for="apt-link">Link:</label>'
+                       + '<input type="text" id="apt-link"></div>'
+                       + '<div><label for="location">Location:</label>'
+                       + '<input type="text" id="location"></div>'
+                       + '<div><label for="rooms">Rooms:</label>'
+                       + '<input type="number" id="rooms"></div>'
+                       + '<div><label for="square-meters">Square Meters:</label>'
+                       + '<input type="number" id="square-meters"></div>'
+                       + '<div><label for="notes">Notes:</label>'
+                       + '<textarea id="notes"></textarea></div>'
+                       + '<div><button id="add-cost-btn">Add cost</button>'
+                       + '<button id="send-apt-btn">Submit</button></div>');
     document.getElementById("add-apt-btn").insertAdjacentElement(
                            "afterend", input);
     document.getElementById("add-cost-btn").addEventListener("click", addCost);
@@ -41,12 +41,12 @@ function addCost(e: MouseEvent): void {
     // e.target.removeEventListener("click", addCost);
     const cost = document.createElement("div");
     cost.classList.add("cost");
-    cost.innerHTML = ('<label for="cost-name">Name:</label>'
-                      + '<input type="text" id="cost-name">'
-                      + '<label for="cost-price">Price:</label>'
-                      + '<input type="number" id="cost-price">'
-                      + '<label for="is-estimated">Estimated:</label>'
-                      + '<input type="checkbox" id="is-estimated">');
+    cost.innerHTML = ('<div><label for="cost-name">Name:</label>'
+                      + '<input type="text" id="cost-name"></div>'
+                      + '<div><label for="cost-price">Price:</label>'
+                      + '<input type="number" id="cost-price"></div>'
+                      + '<div><label for="is-estimated">Estimated:</label>'
+                      + '<input type="checkbox" id="is-estimated"></div>');
     document.getElementById("send-apt-btn").insertAdjacentElement("beforebegin",
                                                                   cost);
 }
