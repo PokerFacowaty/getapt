@@ -1,0 +1,16 @@
+html {
+    background-color: black;
+    color: white;
+}
+
+table, td {
+    border: 2px solid white;
+    border-collapse: collapse;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+button {
+    background-color: black;
+    color: white;
+}
