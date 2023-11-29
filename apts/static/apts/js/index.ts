@@ -22,9 +22,9 @@ function addInput(e: MouseEvent): void {
                        + '<label for="location">Location:</label>'
                        + '<input type="text" id="location">'
                        + '<label for="notes">Notes:</label>'
-                       + '<input type="textarea" id="notes">'
-                       + '<button id="send-apt-btn">Submit</button>'
-                       + '<button id="add-cost-btn">Add cost</button>');
+                       + '<textarea id="notes"></textarea>'
+                       + '<button id="add-cost-btn">Add cost</button>'
+                       + '<button id="send-apt-btn">Submit</button>');
     document.getElementById("add-apt-btn").insertAdjacentElement(
                            "afterend", input);
     document.getElementById("add-cost-btn").addEventListener("click", addCost);
@@ -47,7 +47,7 @@ function addCost(e: MouseEvent): void {
                       + '<input type="number" id="cost-price">'
                       + '<label for="is-estimated">Estimated:</label>'
                       + '<input type="checkbox" id="is-estimated">');
-    document.getElementById("send-apt-btn").insertAdjacentElement("afterend",
+    document.getElementById("send-apt-btn").insertAdjacentElement("beforebegin",
                                                                   cost);
 }
 
