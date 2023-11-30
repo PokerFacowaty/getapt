@@ -31,3 +31,12 @@ class Cost(models.Model):
 
 class CostType(models.Model):
     NAME = models.CharField(max_length=50, unique=True)
+
+
+class PredefinedAttribute(models.Model):
+    NAME = models.CharField(max_length=50, unique=True)
+
+
+class Attribute(models.Model):
+    NAME = models.CharField(max_length=50, unique=True)
+    IS = models.BooleanField(null=True, default=None)
