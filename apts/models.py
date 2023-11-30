@@ -18,7 +18,8 @@ class Apartment(models.Model):
 
 class Cost(models.Model):
     NAME = models.CharField(max_length=50)
-    TYPE = models.ForeignKey("CostType", null=True, on_delete=models.CASCADE)
+    TYPE = models.ForeignKey("CostType", null=True, blank=True,
+                             on_delete=models.CASCADE)
     PRICE = models.IntegerField(null=True)
     PRICE_IS_ESTIMATED = models.BooleanField(default=False)
 
