@@ -22,7 +22,7 @@ function addInput(e: MouseEvent): void {
                        + '<div><label for="square-meters">Square Meters:</label>'
                        + '<input type="number" id="square-meters"></div>'
                        + '<div><label for="notes">Notes:</label>'
-                       + '<textarea id="notes"></textarea></div>'
+                       + '<textarea id="notes" rows="10" cols="35"></textarea></div>'
                        + '<div><button id="add-cost-btn">Add cost</button>'
                        + '<button id="send-apt-btn">Submit</button></div>');
     document.getElementById("add-apt-btn").insertAdjacentElement(
