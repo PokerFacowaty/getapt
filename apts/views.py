@@ -25,7 +25,6 @@ def index(request):
     elif sorted_by == "m2":
         apartments = sorted(list(apartments), key=lambda x: getattr(
                             x, "SQUARE_METERS"), reverse=rev)
-    print(apartments)
     context = {"apts": apartments,
                "predefinied_attrs": predefinied_attrs}
     return render(request, "apts/index.html", context)
