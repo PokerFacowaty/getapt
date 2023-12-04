@@ -8,6 +8,7 @@ class Apartment(models.Model):
     NOTES = models.CharField(blank=True, max_length=512)
     COSTS = models.ManyToManyField("Cost", blank=True)
     LINK = models.CharField(blank=True, max_length=256)
+    ATTRIBUTES = models.ManyToManyField("Attribute", blank=True)
 
     def total_cost(self) -> int:
         total = 0
