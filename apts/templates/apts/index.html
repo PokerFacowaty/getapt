@@ -42,7 +42,7 @@
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td>{{ apt.NOTES }}</td>
+                <td>{{ apt.NOTES|linebreaks }}</td>
                 <td>
                     {% for cost in apt.costs %}
                         {% if cost.PRICE_IS_ESTIMATED %}
