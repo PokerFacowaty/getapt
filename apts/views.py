@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from apts.models import Apartment, Cost, CostType
+from apts.models import (Apartment, Cost, CostType, PredefinedAttribute,
+                         Attribute)
 import json
 from django.http import JsonResponse
 
 
 def index(request):
     apartments = Apartment.objects.all()
+    predefinied_attrs = PredefinedAttribute.objects.all()
     for apt in apartments:
         apt.total = apt.total_cost()
         apt.costs = apt.COSTS.all()
-    context = {"apts": apartments}
+    context = {"apts": apartments,
+               "predefinied_attrs": predefinied_attrs}
     return render(request, "apts/index.html", context)
 
 
@@ -27,6 +30,7 @@ def create_apt(request):
                 LINK=apt["link"])
             new_apt.save()
             new_apt.COSTS.add(*apt["costs"])
+            new_apt.ATTRIBUTES.add(*apt["attrs"])
             return JsonResponse({"context": "Added the apartment!"})
         return JsonResponse({"context": "Not ajax"}, status=400)
     return JsonResponse({"context": "Not POST"}, status=400)
