@@ -8,6 +8,12 @@
     <link id="stylesheet" rel="stylesheet" type="text/css" href="{% static 'apts/css/index.css' %}">
 </head>
 <body>
+    <ul style="display: none" id="attr-list">
+        {% comment %} I really wanted to save an API call {% endcomment %}
+        {% for attr in predefinied_attrs %}
+            <li>{{ attr.NAME }}</li>
+        {% endfor %}
+    </ul>
     <table>
         <tr>
             <th>Link</th>
