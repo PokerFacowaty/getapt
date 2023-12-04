@@ -220,7 +220,7 @@ function sortTable(e: MouseEvent){
     const target = e.target as HTMLTableCellElement;
     const key = target.innerText;
 
-    if (["Rooms", "m2", "Total"].includes(key)){
+    if (["Rooms", "m2", "Total", "Attributes"].includes(key)){
         if (url.searchParams.get("sortby") === key && url.searchParams.get("reverse") == "True"){
             url.searchParams.set("reverse", "False");
         }
