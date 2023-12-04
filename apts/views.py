@@ -54,3 +54,23 @@ def create_cost(request):
             return JsonResponse({"cost_id": new_cost.pk})
         return JsonResponse({"context": "Not AJAX"}, status=400)
     return JsonResponse({"context": "Not POST"}, status=400)
+
+
+def create_attr(request):
+    j = json.load(request)
+    pl = j.get("payload")
+    if request.method == "POST":
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        if is_ajax:
+            if pl.get("attr", None):
+                attr = pl["attr"]
+                new_attr = Attribute.objects.create(
+                    NAME=attr["name"],
+                    IS=attr["is"]
+                )
+                new_attr.save()
+                print(new_attr.pk)
+                return JsonResponse({"attr_id": new_attr.pk})
+            return JsonResponse({"context": "Data invalid"}, status=400)
+        return JsonResponse({"context": "Not AJAX"}, status=400)
+    return JsonResponse({"context": "Not POST"}, status=400)
