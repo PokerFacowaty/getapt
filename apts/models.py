@@ -16,6 +16,9 @@ class Apartment(models.Model):
             total += cost.PRICE
         return total
 
+    def __str__(self):
+        return self.LOCATION if self.LOCATION else self.pk
+
 
 class Cost(models.Model):
     NAME = models.CharField(max_length=50)
