@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "target": "ES2022",
-      "lib": ["ES5", "ES6", "DOM", "DOM.Iterable"]
+      "lib": ["ES5", "ES6", "DOM", "DOM.Iterable", "ES2016.Array.Include"]
     },
     "include": ["**/js/*"],
     "strict": true
