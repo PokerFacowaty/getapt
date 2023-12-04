@@ -39,5 +39,5 @@ class PredefinedAttribute(models.Model):
 
 
 class Attribute(models.Model):
-    NAME = models.CharField(max_length=50, unique=True)
+    NAME = models.CharField(max_length=50)
     IS = models.BooleanField(null=True, default=None)
