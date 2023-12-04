@@ -6,6 +6,7 @@ function main(): void{
 
     const table = document.querySelector("table");
     table.insertAdjacentElement("beforebegin", addAptBtn);
+    document.getElementsByTagName("tr")[0].addEventListener("click", sortTable);
 }
 
 function addInput(e: MouseEvent): void {
@@ -212,6 +213,28 @@ function getCookie(name: string) {
         }
     }
     return cookieValue;
+}
+
+function sortTable(e: MouseEvent){
+    const url = new URL(window.location.href);
+    const target = e.target as HTMLTableCellElement;
+    const key = target.innerText;
+
+    if (["Rooms", "m2", "Total"].includes(key)){
+        if (url.searchParams.get("sortby") === key && url.searchParams.get("reverse") == "True"){
+            url.searchParams.set("reverse", "False");
+        }
+        else if (url.searchParams.get("sortby") === key){
+            url.searchParams.set("reverse", "True");
+        }
+        else {
+            url.searchParams.set("sortby", key);
+            if (url.searchParams.has("reverse")){
+                url.searchParams.delete("reverse");
+            }
+        }
+        window.location.href = String(url);
+    }
 }
 
 const CSRFTOKEN: string = getCookie('csrftoken');

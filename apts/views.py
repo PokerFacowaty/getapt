@@ -12,6 +12,20 @@ def index(request):
         apt.total = apt.total_cost()
         apt.costs = apt.COSTS.all()
         apt.attrs = apt.ATTRIBUTES.all()
+    sorted_by = request.GET.get("sortby", "pk")
+    rev = request.GET.get("reverse", "False") == "True"
+
+    # ifs since only 3 cases
+    if sorted_by == "Total":
+        apartments = sorted(list(apartments), key=lambda x: x.total_cost(),
+                            reverse=rev)
+    elif sorted_by == "Rooms":
+        apartments = sorted(list(apartments), key=lambda x: getattr(
+                            x, "ROOMS"), reverse=rev)
+    elif sorted_by == "m2":
+        apartments = sorted(list(apartments), key=lambda x: getattr(
+                            x, "SQUARE_METERS"), reverse=rev)
+    print(apartments)
     context = {"apts": apartments,
                "predefinied_attrs": predefinied_attrs}
     return render(request, "apts/index.html", context)
