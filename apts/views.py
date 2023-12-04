@@ -11,7 +11,8 @@ def index(request):
     for apt in apartments:
         apt.total = apt.total_cost()
         apt.costs = apt.COSTS.all()
-        apt.attrs = apt.ATTRIBUTES.all()
+        apt.attrs = sorted(list(apt.ATTRIBUTES.all()),
+                           key=lambda x: [True, None, False].index(x.IS))
     sorted_by = request.GET.get("sortby", "pk")
     rev = request.GET.get("reverse", "False") == "True"
 
