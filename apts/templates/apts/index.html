@@ -20,6 +20,7 @@
             <th>Location</th>
             <th>Rooms</th>
             <th>m2</th>
+            <th>Attributes</th>
             <th>Notes</th>
             <th>Costs</th>
             <th>Total</th>
@@ -30,6 +31,17 @@
                 <td>{{ apt.LOCATION }}</td>
                 <td>{{ apt.ROOMS }}</td>
                 <td>{{ apt.SQUARE_METERS }}</td>
+                <td>
+                    {% for attr in apt.attrs %}
+                        {% if attr.IS %}
+                            <div class="attr-true">+ {{ attr.NAME }}</div>
+                        {% elif attr.IS == False %}
+                            <div class="attr-false">- {{ attr.NAME }}</div>
+                        {% elif attr.IS == None %}
+                            <div class="attr-none">? {{ attr.NAME }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ apt.NOTES }}</td>
                 <td>
                     {% for cost in apt.costs %}

@@ -14,3 +14,15 @@ button {
     background-color: black;
     color: white;
 }
+
+.attr-true {
+    color: green;
+}
+
+.attr-false {
+    color: red;
+}
+
+.attr-none {
+    color: yellow;
+}

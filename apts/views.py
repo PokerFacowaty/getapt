@@ -11,6 +11,7 @@ def index(request):
     for apt in apartments:
         apt.total = apt.total_cost()
         apt.costs = apt.COSTS.all()
+        apt.attrs = apt.ATTRIBUTES.all()
     context = {"apts": apartments,
                "predefinied_attrs": predefinied_attrs}
     return render(request, "apts/index.html", context)
