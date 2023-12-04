@@ -25,8 +25,27 @@ function addInput(e: MouseEvent): void {
                        + '<textarea id="notes" rows="10" cols="35"></textarea></div>'
                        + '<div><button id="add-cost-btn">Add cost</button>'
                        + '<button id="send-apt-btn">Submit</button></div>');
+    const predefiniedAttrsList = Array.from(document.getElementById("attr-list").children) as HTMLLIElement[];
+    let predefiniedAttrs: string[] = [];
     document.getElementById("add-apt-btn").insertAdjacentElement(
-                           "afterend", input);
+                            "afterend", input);
+    for (const el of predefiniedAttrsList){
+        // predefiniedAttrs.push(el.innerText);
+        const attr_fieldset = document.createElement("fieldset");
+        attr_fieldset.innerHTML += `<legend>${el.innerText}</legend>`;
+        attr_fieldset.innerHTML += (''
+                                    + `<input type="radio" name="${el.innerText}" id="?${el.innerText}" value="?" checked />`
+                                    + `<label for="?${el.innerText}">Not mentioned / Maybe</label>`
+
+                                    + `<input type="radio" name="${el.innerText}" id="+${el.innerText}" value="+" />`
+                                    + `<label for="+${el.innerText}">Yes</label>`
+
+                                    + `<input type="radio" name="${el.innerText}" id="-${el.innerText}" value="-" />`
+                                    + `<label for="-${el.innerText}">No</label>`
+
+                                    + '')
+        document.getElementById("add-cost-btn").insertAdjacentElement("beforebegin", attr_fieldset);
+    }
     document.getElementById("add-cost-btn").addEventListener("click", addCost);
     document.getElementById("send-apt-btn").addEventListener("click", addCostsAndApt);
 }
@@ -47,13 +66,14 @@ function addCost(e: MouseEvent): void {
                       + '<input type="number" id="cost-price"></div>'
                       + '<div><label for="is-estimated">Estimated:</label>'
                       + '<input type="checkbox" id="is-estimated"></div>');
-    document.getElementById("send-apt-btn").insertAdjacentElement("beforebegin",
+    document.getElementById("add-cost-btn").insertAdjacentElement("beforebegin",
                                                                   cost);
 }
 
 async function addCostsAndApt(e: MouseEvent){
     const costs_ids = await addCosts();
-    addApt(costs_ids);
+    const attrs_ids = await addAttrs();
+    addApt(costs_ids, attrs_ids);
 }
 
 async function addCosts(){
@@ -94,7 +114,47 @@ async function addCosts(){
     return costs_ids;
 }
 
-async function addApt(costs_ids: Number[]){
+async function addAttrs(){
+    const attr_url = window.location.origin + '/add_attr/';
+
+    const fieldsets_arr = Array.from(document.getElementsByTagName("fieldset")) as HTMLFieldSetElement[];
+    let attrs_ids: Number[] = [];
+    let name: string;
+    let is_: boolean | null;
+    for (const fs of fieldsets_arr){
+        const inputs = Array.from(fs.elements) as HTMLInputElement[];
+        for (const input of inputs){
+            if (!input.checked) continue;
+            name = input.name;
+
+            if (input.value === "?") is_ = null;
+            else if (input.value === "+") is_ = true;
+            else if (input.value === "-") is_ = false;
+
+            attrs_ids.push(await fetch(attr_url, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": CSRFTOKEN
+                },
+                body: JSON.stringify({payload: {attr: {name: name, is: is_}}})
+            })
+            .then(response => {
+                if (response.ok){
+                    return new Promise(resolve => {resolve(response.json())});
+                }
+            })
+            .then((data: {attr_id: Number}) => {
+                return data.attr_id;
+            }));
+        }
+    }
+    return attrs_ids;
+}
+
+async function addApt(costs_ids: Number[], attr_ids: Number[]){
+    console.log(attr_ids);
     const apt_url = window.location.origin + '/add_apt/';
 
     const apt_div = document.getElementById("input") as HTMLDivElement;
@@ -119,7 +179,7 @@ async function addApt(costs_ids: Number[]){
         body: JSON.stringify({payload:
                               {link: link, squareMeters: sqm, rooms: rooms,
                                location: location, notes: notes,
-                               costs: costs_ids}})
+                               costs: costs_ids, attrs: attr_ids}})
     })
     .then(response => {
         if (response.ok){
